@@ -21,6 +21,7 @@ Future<Data> fetchData() async {
 
 // fetchDetails
 Future<Data> fetchDetails() async {
+
   final response = await http
       .get(
       Uri.parse('http://159.89.4.181:2000/api/v1/cases?caseStatus=2'));
