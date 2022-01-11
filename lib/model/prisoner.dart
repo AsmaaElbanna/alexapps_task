@@ -3,6 +3,7 @@ class Model {
   String? name;
   String? number;
   String? place;
+  String? thumbnail;
   String? image;
   String? status;
   String? neededAmount;
@@ -12,6 +13,7 @@ class Model {
       this.name,
       this.number,
       this.place,
+        this.thumbnail,
       this.image,
       this.status,
       this.neededAmount});
@@ -22,6 +24,7 @@ class Model {
         name: json['name'],
         number: json['number'],
         place: json['place'],
+        thumbnail: json['thumbnail'],
         image: json['image'],
         status: json['status'],
         neededAmount: json['neededAmount'].toString());

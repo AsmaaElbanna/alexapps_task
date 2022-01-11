@@ -5,19 +5,36 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-Future<Data> fetchAlbum() async {
+Future<Data> fetchData() async {
   final response = await http
       .get(
       Uri.parse('http://159.89.4.181:2000/api/v1/cases?caseStatus=2'));
   if (response.statusCode == 200) {
-    print(response.body);
+    //print(response.body);
     final data = Data.fromJson(jsonDecode(response.body));
-    print(data);
+   // print(data);
     return data;
   } else {
     throw Exception('Failed to load album');
   }
 }
+
+// fetchDetails
+Future<Data> fetchDetails() async {
+  final response = await http
+      .get(
+      Uri.parse('http://159.89.4.181:2000/api/v1/cases?caseStatus=2'));
+  if (response.statusCode == 200) {
+    //print(response.body);
+    final data = Data.fromJson(jsonDecode(response.body));
+    // print(data);
+    return data;
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,12 +44,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<Data> futureAlbum;
+  late Future<Data> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    futureData = fetchData();
   }
 
   @override
@@ -40,10 +57,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return  Scaffold(
       appBar: AppBar(title: const Text('Prisoners List'),centerTitle: true,),
       body: FutureBuilder<Data>(
-        future: futureAlbum,
+        future: futureData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return PrisonerCard(snapshot.data!.prisonerModel![0].name.toString());
+            return ListView.builder(itemCount: snapshot.data!.prisonerModel!.length,itemBuilder:(context,index){
+              return PrisonerCard(snapshot.data!.prisonerModel![index].name.toString(),
+                  snapshot.data!.prisonerModel![index].place.toString(),
+                  snapshot.data!.prisonerModel![index].thumbnail.toString(),
+                  snapshot.data!.prisonerModel![index].neededAmount.toString(),
+                  snapshot.data!.prisonerModel![index].status.toString());
+            });
           } else if (snapshot.hasError) {
             //print(snapshot.data.);
             return Text('${snapshot.error}');
@@ -56,5 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-//            return Text(snapshot.data!.sportsModel![0].strSport.toString());
+/*
 
+PrisonerCard(snapshot.data!.prisonerModel![0].name.toString(),
+                snapshot.data!.prisonerModel![0].place.toString(),
+                snapshot.data!.prisonerModel![0].thumbnail.toString(),
+                snapshot.data!.prisonerModel![0].neededAmount.toString(),
+                snapshot.data!.prisonerModel![0].status.toString());
+ */
