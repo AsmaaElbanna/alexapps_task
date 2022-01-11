@@ -1,24 +1,39 @@
 import 'package:alex_apps_task/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 
-class PrisonerCard extends StatelessWidget {
-String name;
-String place;
-String thumbNail;
-String neededAmount;
-String status;
-PrisonerCard(this.name,this.place,this.thumbNail,this.neededAmount,this.status, {Key? key}) : super(key: key);
+
+class PrisonerCard extends StatefulWidget {
+  String id;
+  String name;
+  String place;
+  String thumbNail;
+  String neededAmount;
+  String status;
+  PrisonerCard(this.id, this.name, this.place, this.thumbNail,
+      this.neededAmount, this.status,
+      {Key? key})
+      : super(key: key);
+
+  @override
+  State<PrisonerCard> createState() => _PrisonerCardState();
+}
+
+class _PrisonerCardState extends State<PrisonerCard> {
+
+
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(onTap: (){
-Navigator.push(context, MaterialPageRoute(builder: (context)=> const DetailsScreen()));
-    },
+    return InkWell(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DetailsScreen(widget.id)));
+      },
       child: Container(
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(
               color: Colors.grey,
@@ -36,7 +51,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=> const DetailsScre
               spreadRadius: 0.0,
             ), //BoxShadow
           ],
-            ),
+        ),
         child: Column(
           children: [
             Row(
@@ -45,7 +60,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=> const DetailsScre
                 Column(
                   children: [
                     Text(
-                     name,
+                      widget.name,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -54,12 +69,11 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=> const DetailsScre
                     SizedBox(
                       height: 10,
                     ),
-                    Text(place)
+                    Text(widget.place)
                   ],
                 ),
                 CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      thumbNail),
+                  backgroundImage: NetworkImage(widget.thumbNail),
                 )
               ],
             ),
@@ -69,14 +83,21 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=> const DetailsScre
             Container(
               height: 10,
               decoration: BoxDecoration(
-                  color: Colors.black54, borderRadius: BorderRadius.circular(10)),
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(10)),
             ),
             SizedBox(
               height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('${neededAmount+' AED'}',style: TextStyle(fontWeight: FontWeight.bold),), Text(status)],
+              children: [
+                Text(
+                  '${widget.neededAmount + ' AED'}',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(widget.status)
+              ],
             ),
             SizedBox(
               height: 10,
@@ -85,7 +106,9 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=> const DetailsScre
               height: 1,
               decoration: BoxDecoration(color: Colors.black12),
             ),
-            SizedBox(height: 5,),
+            SizedBox(
+              height: 5,
+            ),
             Text(
               'Expedita quam doloribus quam nemo ut tenetur, \n Rerum ut molestias ut. ',
               textAlign: TextAlign.center,

@@ -1,13 +1,69 @@
-import 'package:alex_apps_task/screens/home/components/prisoner_card.dart';
+import 'package:alex_apps_task/model/data.dart';
+import 'package:alex_apps_task/model/data_details.dart';
+import 'package:alex_apps_task/model/prisoner.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
-class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key}) : super(key: key);
+//'http://159.89.4.181:2000/api/v1/cases/$caseID'
+// fetchDetails
+Future<DataDetails> fetchDetails(int caseID) async {
+  final response = await http
+      .get(
+      Uri.parse('http://159.89.4.181:2000/api/v1/cases/$caseID'));
+  if (response.statusCode == 200) {
+    //print(response.body);
+    final data = DataDetails.fromJson(jsonDecode(response.body));
+    // print(data);
+    return data;
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
+
+class DetailsScreen extends StatefulWidget {
+  String id;
+
+
+   DetailsScreen(this.id,{Key? key}) : super(key: key);
+
+  @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  late Future<DataDetails> futureDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDetails = fetchDetails(int.parse(widget.id));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: FutureBuilder<DataDetails>(
+        future: futureDetails,
+        builder: (context,snapshot){
+          if(snapshot.hasData){
+            return Center(child: Text(snapshot.data!.prisonerModel!.details.toString()));
+
+          }else if(snapshot.hasError){
+            return Center(child: Text('${snapshot.error}'));
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/*
+SingleChildScrollView(
           child: Stack(
         children: [
           Column(
@@ -30,12 +86,10 @@ class DetailsScreen extends StatelessWidget {
             ],
           ),
           Positioned(
-            child: PrisonerCard('Joseph','America','https://efraaj.com/default/prisoner_thumbnail.webp','kk','kk'),
+            child: PrisonerCard('2','Joseph','America','https://efraaj.com/default/prisoner_thumbnail.webp','kk','kk'),
             right: 20,
             bottom: 350,
           )
         ],
-      )),
-    );
-  }
-}
+      ))
+ */

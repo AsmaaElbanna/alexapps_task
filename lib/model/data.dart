@@ -10,6 +10,7 @@ class Data {
           json["model"].map((x) => Model.fromJson(x))),
     );
   }
+
 }
 
 //

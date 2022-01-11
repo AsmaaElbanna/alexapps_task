@@ -1,4 +1,5 @@
 import 'package:alex_apps_task/model/data.dart';
+import 'package:alex_apps_task/model/prisoner.dart';
 import 'package:alex_apps_task/screens/home/components/prisoner_card.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,14 +21,14 @@ Future<Data> fetchData() async {
 }
 
 // fetchDetails
-Future<Data> fetchDetails() async {
+Future<Model> fetchDetails(int caseID) async {
 
   final response = await http
       .get(
-      Uri.parse('http://159.89.4.181:2000/api/v1/cases?caseStatus=2'));
+      Uri.parse('http://159.89.4.181:2000/api/v1/cases/$caseID'));
   if (response.statusCode == 200) {
     //print(response.body);
-    final data = Data.fromJson(jsonDecode(response.body));
+    final data = Model.fromJson(jsonDecode(response.body));
     // print(data);
     return data;
   } else {
@@ -62,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(itemCount: snapshot.data!.prisonerModel!.length,itemBuilder:(context,index){
-              return PrisonerCard(snapshot.data!.prisonerModel![index].name.toString(),
+              return PrisonerCard(snapshot.data!.prisonerModel![index].id.toString(),
+                  snapshot.data!.prisonerModel![index].name.toString(),
                   snapshot.data!.prisonerModel![index].place.toString(),
                   snapshot.data!.prisonerModel![index].thumbnail.toString(),
                   snapshot.data!.prisonerModel![index].neededAmount.toString(),
@@ -74,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           // By default, show a loading spinner.
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );
