@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PrisonerCard extends StatelessWidget {
-  const PrisonerCard({Key? key}) : super(key: key);
+String name;
+PrisonerCard(this.name, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class PrisonerCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Joseph',
+                   name,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,

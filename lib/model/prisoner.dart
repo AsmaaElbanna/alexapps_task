@@ -1,13 +1,13 @@
-class Prisoner {
-  int? id;
+class Model {
+  String? id;
   String? name;
-  int? number;
+  String? number;
   String? place;
   String? image;
   String? status;
-  int? neededAmount;
+  String? neededAmount;
 
-  Prisoner(
+  Model(
       {this.id,
       this.name,
       this.number,
@@ -16,14 +16,14 @@ class Prisoner {
       this.status,
       this.neededAmount});
 
-  factory Prisoner.fromJson(Map<String, dynamic> json) {
-    return Prisoner(
+  factory Model.fromJson(Map<String, dynamic> json) {
+    return Model(
         id: json['id'],
         name: json['name'],
         number: json['number'],
         place: json['place'],
         image: json['image'],
         status: json['status'],
-        neededAmount: json['neededAmount']);
+        neededAmount: json['neededAmount'].toString());
   }
 }
