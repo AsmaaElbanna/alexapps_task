@@ -2,6 +2,7 @@ import 'package:alex_apps_task/model/data.dart';
 import 'package:alex_apps_task/model/data_details.dart';
 import 'package:alex_apps_task/model/prisoner.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -15,7 +16,7 @@ Future<DataDetails> fetchDetails(int caseID) async {
   if (response.statusCode == 200) {
     //print(response.body);
     final data = DataDetails.fromJson(jsonDecode(response.body));
-    // print(data);
+    // print(data.prisonerModel!.details);
     return data;
   } else {
     throw Exception('Failed to load album');
@@ -48,7 +49,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
         future: futureDetails,
         builder: (context,snapshot){
           if(snapshot.hasData){
-            return Center(child: Text(snapshot.data!.prisonerModel!.details.toString()));
+            return Column(
+              children: [
+                Image.network(snapshot.data!.image.toString(),),
+
+              ],
+            );
 
           }else if(snapshot.hasError){
             return Center(child: Text('${snapshot.error}'));
@@ -61,6 +67,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 }
+
+//Center(child: Text(snapshot.data!.details.toString()));
 
 /*
 SingleChildScrollView(

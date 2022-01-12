@@ -1,4 +1,4 @@
-import 'package:alex_apps_task/screens/details_screen.dart';
+import 'package:alex_apps_task/screens/details/details_screen.dart';
 import 'package:flutter/material.dart';
 
 
