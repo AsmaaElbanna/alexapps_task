@@ -1,18 +1,14 @@
-import 'package:alex_apps_task/model/data.dart';
 import 'package:alex_apps_task/model/data_details.dart';
-import 'package:alex_apps_task/model/prisoner.dart';
+import 'package:alex_apps_task/screens/details/components/prisoner_card_details.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-//'http://159.89.4.181:2000/api/v1/cases/$caseID'
 // fetchDetails
 Future<DataDetails> fetchDetails(int caseID) async {
   final response = await http
-      .get(
-      Uri.parse('http://159.89.4.181:2000/api/v1/cases/$caseID'));
+      .get(Uri.parse('http://159.89.4.181:2000/api/v1/cases/$caseID'));
   if (response.statusCode == 200) {
     //print(response.body);
     final data = DataDetails.fromJson(jsonDecode(response.body));
@@ -26,8 +22,7 @@ Future<DataDetails> fetchDetails(int caseID) async {
 class DetailsScreen extends StatefulWidget {
   String id;
 
-
-   DetailsScreen(this.id,{Key? key}) : super(key: key);
+  DetailsScreen(this.id, {Key? key}) : super(key: key);
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -47,16 +42,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       body: FutureBuilder<DataDetails>(
         future: futureDetails,
-        builder: (context,snapshot){
-          if(snapshot.hasData){
-            return Column(
-              children: [
-                Image.network(snapshot.data!.image.toString(),),
-
-              ],
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return SingleChildScrollView(
+              child: Stack(
+                children:[ Column(
+                  children: [
+                    Image.network(
+                      snapshot.data!.image.toString(),
+                    ),
+                    SizedBox(height: 120,),
+                    Text('Case Details',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    SizedBox(height: 20,),
+                    Text(snapshot.data!.details.toString()),
+                  ],
+                ),
+                  Positioned(right: 10,left:10,top: 470,child:PrisonerCardDetails(
+                      snapshot.data!.name.toString(),
+                      snapshot.data!.place.toString(),
+                      snapshot.data!.thumbnail.toString(),
+                      snapshot.data!.neededAmount.toString(),
+                      snapshot.data!.status.toString()),),
+          ]
+              ),
             );
-
-          }else if(snapshot.hasError){
+          } else if (snapshot.hasError) {
             return Center(child: Text('${snapshot.error}'));
           }
           return const Center(
