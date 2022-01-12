@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar(title: const Text('Prisoners List'),centerTitle: true,),
+      appBar: AppBar(title: const Text('Prisoners List',style: TextStyle(color: Colors.black),),centerTitle: true,),
       body: FutureBuilder<Data>(
         future: futureData,
         builder: (context, snapshot) {

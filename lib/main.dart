@@ -13,9 +13,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData(
-      //   primarySwatch: Colors.,
-      // ),
+      theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          textTheme:TextTheme(
+            bodyText1: TextStyle(color: Colors.black),
+             bodyText2: TextStyle(color: Colors.black),
+          ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          appBarTheme: AppBarTheme(
+              textTheme: TextTheme(headline6: TextStyle(color: Color(0XFF8B8B8B))),
+              color: Colors.white,
+              elevation: 0,
+              brightness: Brightness.light,
+              iconTheme: IconThemeData(color: Colors.black)
+          )
+      ),
       home: const HomeScreen(),
     );
   }

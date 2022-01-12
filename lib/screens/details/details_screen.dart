@@ -51,9 +51,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     Image.network(
                       snapshot.data!.image.toString(),
                     ),
-                    SizedBox(height: 120,),
-                    Text('Case Details',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 120,),
+                    const Text('Case Details',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 20,),
                     Text(snapshot.data!.details.toString()),
                   ],
                 ),
