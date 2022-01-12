@@ -54,7 +54,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     const SizedBox(height: 120,),
                     const Text('Case Details',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                     const SizedBox(height: 20,),
-                    Text(snapshot.data!.details.toString()),
+                    Padding(padding: const EdgeInsets.all(10),
+                    child: Text(snapshot.data!.details.toString())),
                   ],
                 ),
                   Positioned(right: 10,left:10,top: 470,child:PrisonerCardDetails(

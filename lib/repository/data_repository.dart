@@ -13,9 +13,7 @@ class DataRepositoryAPI extends DataRepository{
         .get(
         Uri.parse('http://159.89.4.181:2000/api/v1/cases?caseStatus=2'));
     if (response.statusCode == 200) {
-      //print(response.body);
       final data = Data.fromJson(jsonDecode(response.body));
-      // print(data);
       return data;
     } else {
       throw Exception('Failed to load album');
